@@ -1,7 +1,7 @@
 // frontend/src/context/AuthContext.jsx
 import React, { useState, useEffect, createContext, useContext } from 'react';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {

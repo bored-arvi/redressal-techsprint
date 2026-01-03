@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/common/Header';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const ModerationPage = ({ onNavigate }) => {
   const { token } = useAuth();
@@ -215,7 +215,7 @@ const ModerationPage = ({ onNavigate }) => {
                       </div>
 
                       <div className="ai-suggestions">
-                        <h3>🤖 AI Recommendations</h3>
+                        <h3>AI Recommendations</h3>
                         <div className="suggestions-content">
                           {formatAISuggestions(moderationData.ai_suggestions)}
                         </div>
@@ -229,28 +229,28 @@ const ModerationPage = ({ onNavigate }) => {
                             onClick={() => handleModerationAction('priority')}
                             disabled={actionLoading || topicData?.priority === 'high'}
                           >
-                            🚨 {topicData?.priority === 'high' ? 'Priority Set' : 'Mark as Priority'}
+                             {topicData?.priority === 'high' ? 'Priority Set' : 'Mark as Priority'}
                           </button>
                           <button 
                             className="action-btn resolve"
                             onClick={() => handleModerationAction('resolve')}
                             disabled={actionLoading || topicData?.status === 'resolved'}
                           >
-                            ✓ {topicData?.status === 'resolved' ? 'Already Resolved' : 'Mark as Resolved'}
+                            {topicData?.status === 'resolved' ? 'Already Resolved' : 'Mark as Resolved'}
                           </button>
                           <button 
                             className="action-btn escalate"
                             onClick={() => handleModerationAction('escalate')}
                             disabled={actionLoading}
                           >
-                            ⬆ Escalate to Admin
+                            Escalate to Admin
                           </button>
                           <button 
                             className="action-btn archive"
                             onClick={() => handleModerationAction('archive')}
                             disabled={actionLoading || topicData?.status === 'archived'}
                           >
-                            📦 {topicData?.status === 'archived' ? 'Already Archived' : 'Archive Topic'}
+                            {topicData?.status === 'archived' ? 'Already Archived' : 'Archive Topic'}
                           </button>
                         </div>
                         {topicData?.status && (

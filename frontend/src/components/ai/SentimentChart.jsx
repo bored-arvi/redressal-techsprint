@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const SentimentChart = ({ topicId }) => {
   const [data, setData] = useState([]);
@@ -93,7 +93,7 @@ const SentimentChart = ({ topicId }) => {
         <div className="chart-stat">
           <span className="stat-label">Trend:</span>
           <span className="stat-value">
-            {data[data.length - 1]?.score > data[0]?.score ? '📈 Improving' : '📉 Declining'}
+            {data[data.length - 1]?.score > data[0]?.score ? ' Improving' : '📉 Declining'}
           </span>
         </div>
       </div>

@@ -9,7 +9,7 @@ import Poll from '../components/topics/Poll';
 import Comment from '../components/topics/Comment';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
   const { token } = useAuth();

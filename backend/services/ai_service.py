@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Configure Gemini
 genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-model = genai.GenerativeModel('gemini-2.5-flash')
+model = genai.GenerativeModel('gemini-flash-lite-latest')
 
 class AIService:
     """Comprehensive AI service for the platform"""
