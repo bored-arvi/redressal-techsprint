@@ -5,7 +5,7 @@ import os
 
 # Configure Gemini API
 genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-flash-lite-latest')
 
 def analyze_post(content):
     """Analyze a single post for sentiment and key points"""
