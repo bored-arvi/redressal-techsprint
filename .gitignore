@@ -1,0 +1,365 @@
+# .gitignore for Redressal Platform
+
+# ==================== PYTHON (Backend) ====================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# ==================== NODE (Frontend) ====================
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+dist/
+dist-ssr/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+.coverage
+.nyc_output
+
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out/
+
+# Nuxt.js build / generate output
+.nuxt
+dist/
+
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and not Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Vite
+*.local
+
+# ==================== DATABASE ====================
+# SQLite databases
+*.db
+*.sqlite3
+*.sqlite
+
+# Database backups
+*.dump
+*.backup
+
+# PostgreSQL
+*.pid
+postmaster.pid
+postmaster.opts
+
+# MySQL
+*.frm
+*.MYD
+*.MYI
+*.ibd
+
+# ==================== IDE ====================
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+
+# PyCharm
+.idea/
+.ropeproject
+
+# Eclipse
+.settings/
+.project
+.classpath
+.factorypath
+
+# NetBeans
+nbproject/
+nbactions.xml
+
+# VS Code
+.history/
+
+# ==================== OS ====================
+# OSX
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Desktop.ini
+$RECYCLE.BIN/
+Thumbs.db
+
+# Linux
+*~
+
+# ==================== ENVIRONMENT VARIABLES ====================
+# NEVER COMMIT SECRETS!
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging.local
+
+# Environment-specific Gemini keys
+gemini_key.txt
+api_keys.txt
+secrets.txt
+credentials.json
+
+# ==================== FLASK SPECIFIC ====================
+# Flask secret key
+secret.key
+
+# Flask session files
+flask_session/
+
+# ==================== REACT/FLASK BUILD ARTIFACTS ====================
+# Frontend build
+frontend/dist/
+frontend/build/
+
+# Backend build
+backend/build/
+backend/__pycache__/
+
+# ==================== DEPLOYMENT ====================
+# Docker
+docker-compose.override.yml
+
+# Kubernetes
+*.kubeconfig
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# ==================== TEMPORARY FILES ====================
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+
+# ==================== CUSTOM FOR REDRESSAL ====================
+# AI model cache
+ai_model_cache/
+.gemini_cache/
+
+# Uploaded files
+uploads/
+static/uploads/
+
+# Sentiment analysis cache
+.sentiment_cache/
+
+# Log files specific to our app
+app.log
+error.log
+access.log
+
+# Database migrations (if you're not tracking them)
+migrations/versions/*.py
+!migrations/versions/__init__.py
+
+# ==================== DOCUMENTATION ====================
+# Generated documentation
+docs/_build/
+
+# ==================== TESTING ====================
+# Test results
+test-results/
+test-reports/
+.junit/
+reports/
+
+# ==================== NOTE ====================
+# Files that should be committed:
+# !requirements.txt
+# !package.json
+# !package-lock.json / yarn.lock
+# !README.md
+# !LICENSE
+# !.gitignore
+# !.env.example (template file)
+# !config.example.py
