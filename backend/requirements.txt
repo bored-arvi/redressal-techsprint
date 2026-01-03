@@ -1,7 +1,5 @@
-flask
-flask_sqlalchemy
-flask_jwt_extended
-flask_cors
-google-generativeai
-werkzeug
-python-dotenv
+flask==2.3.3
+flask-cors==4.0.0
+flask-jwt-extended==4.5.3
+google-generativeai==0.3.0
+gunicorn==21.2.0
