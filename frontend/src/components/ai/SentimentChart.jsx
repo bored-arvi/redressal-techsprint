@@ -50,7 +50,7 @@ const SentimentChart = ({ topicId }) => {
   if (data.length === 0) {
     return (
       <div className="sentiment-chart">
-        <h3>📈 Sentiment Timeline</h3>
+        <h3>  Sentiment Timeline</h3>
         <p style={{color: '#ff9800', padding: '20px', textAlign: 'center'}}>
           No sentiment data available yet. Add more posts to generate chart.
         </p>
@@ -61,7 +61,7 @@ const SentimentChart = ({ topicId }) => {
   return (
     <div className="sentiment-chart">
       <div className="chart-header">
-        <h3>📈 Sentiment Timeline</h3>
+        <h3>  Sentiment Timeline</h3>
         <div className="chart-legend">
           <span className="legend-item">
             <span className="legend-color instant" style={{background: '#9147ff'}}></span>Instant
@@ -93,7 +93,7 @@ const SentimentChart = ({ topicId }) => {
         <div className="chart-stat">
           <span className="stat-label">Trend:</span>
           <span className="stat-value">
-            {data[data.length - 1]?.score > data[0]?.score ? ' Improving' : '📉 Declining'}
+            {data[data.length - 1]?.score > data[0]?.score ? ' Improving' : '  Declining'}
           </span>
         </div>
       </div>

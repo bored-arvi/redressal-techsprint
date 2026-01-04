@@ -32,7 +32,7 @@ const SimilarTopics = ({ topicId }) => {
 
   return (
     <div className="similar-topics">
-      <h3>🔗 Related Discussions</h3>
+      <h3>  Related Discussions</h3>
       <div className="similar-list">
         {similar.map(topic => (
           <div key={topic.topic_id} className="similar-item">

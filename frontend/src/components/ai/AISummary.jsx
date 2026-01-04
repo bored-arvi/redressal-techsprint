@@ -32,7 +32,7 @@ const AISummary = ({ topicId }) => {
 
   return (
     <div className="ai-summary">
-      <h3>🤖 AI Summary</h3>
+      <h3>  AI Summary</h3>
       <p>{summary}</p>
     </div>
   );

@@ -32,7 +32,7 @@ const RiskPrediction = ({ topicId }) => {
 
   return (
     <div className={`risk-prediction risk-${prediction.risk_level}`}>
-      <h3>⚠️ Escalation Risk</h3>
+      <h3>   Escalation Risk</h3>
       <div className="risk-score-display">{(prediction.risk_score * 100).toFixed(0)}%</div>
       <div className="risk-level">{prediction.risk_level.toUpperCase()}</div>
       <div className="risk-factors">
