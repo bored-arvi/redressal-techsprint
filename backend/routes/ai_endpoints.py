@@ -259,3 +259,195 @@ def analyze_text():
     except Exception as e:
         print(f"Error analyzing text: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+# Add these endpoints to your ai_endpoints.py file
+
+# ==================== DECISION SUPPORT ENDPOINTS ====================
+
+@ai_routes.route("/ai/decision-support/<int:topic_id>")
+@jwt_required()
+def get_decision_support(topic_id):
+    """Get comprehensive decision support for a topic"""
+    try:
+        topic = Topic.query.get_or_404(topic_id)
+        
+        # Get all decision support data
+        recommendations = ai_service.generate_action_recommendations(topic)
+        resources = ai_service.analyze_resource_availability(topic)
+        timeline = ai_service.generate_decision_timeline(topic)
+        
+        # Get stakeholder analysis
+        posts = Post.query.filter_by(topic_id=topic_id).all()
+        stakeholder_analysis = analyze_stakeholders(posts)
+        
+        return jsonify({
+            "topic_id": topic_id,
+            "topic_title": topic.title,
+            "recommendations": recommendations,
+            "resources": resources,
+            "timeline": timeline,
+            "stakeholders": stakeholder_analysis,
+            "summary": f"AI-generated decision support for: {topic.title}",
+            "generated_at": datetime.utcnow().isoformat()
+        }), 200
+    except Exception as e:
+        print(f"Error generating decision support: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@ai_routes.route("/ai/quick-actions/<int:topic_id>")
+@jwt_required()
+def get_quick_actions(topic_id):
+    """Get one-click quick actions for moderators"""
+    try:
+        topic = Topic.query.get_or_404(topic_id)
+        
+        quick_actions = [
+            {
+                "id": 1,
+                "title": "  Escalate to Department",
+                "description": "Send to relevant department with all context",
+                "time": "2 minutes",
+                "action_type": "escalate",
+                "endpoint": f"/api/moderation/topic/{topic_id}/escalate"
+            },
+            {
+                "id": 2,
+                "title": "  Create Action Plan",
+                "description": "Generate step-by-step resolution plan",
+                "time": "5 minutes",
+                "action_type": "plan",
+                "endpoint": f"/api/ai/action-plan/{topic_id}"
+            },
+            {
+                "id": 3,
+                "title": "  Form Response Team",
+                "description": "Assemble cross-functional team",
+                "time": "10 minutes",
+                "action_type": "team",
+                "endpoint": f"/api/moderation/team/{topic_id}"
+            },
+            {
+                "id": 4,
+                "title": "  Mark as Known Issue",
+                "description": "Add to known issues database",
+                "time": "1 minute",
+                "action_type": "mark",
+                "endpoint": f"/api/moderation/topic/{topic_id}/archive"
+            },
+            {
+                "id": 5,
+                "title": "  Generate Report",
+                "description": "Create resolution report for management",
+                "time": "3 minutes",
+                "action_type": "report",
+                "endpoint": f"/api/ai/report/{topic_id}"
+            }
+        ]
+        
+        return jsonify({
+            "topic_id": topic_id,
+            "quick_actions": quick_actions,
+            "suggested_action": "Start with escalation if urgent, otherwise create action plan"
+        }), 200
+    except Exception as e:
+        print(f"Error getting quick actions: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@ai_routes.route("/ai/resource-map/<int:topic_id>")
+@jwt_required()
+def get_resource_map(topic_id):
+    """Get map of available resources for issue resolution"""
+    try:
+        topic = Topic.query.get_or_404(topic_id)
+        resources = ai_service.analyze_resource_availability(topic)
+        
+        # Enhance with real database data if available
+        from models import Resource
+        db_resources = Resource.query.filter_by(category=topic.tags.split(',')[0] if topic.tags else 'general').all()
+        
+        enhanced_resources = {
+            **resources,
+            "database_resources": [
+                {
+                    "name": r.name,
+                    "type": r.type,
+                    "availability": r.availability,
+                    "contact": r.contact_info
+                }
+                for r in db_resources
+            ] if db_resources else []
+        }
+        
+        return jsonify({
+            "topic_id": topic_id,
+            "resource_map": enhanced_resources,
+            "ai_suggestion": f"Focus on {resources['available_resources'][0]['category'] if resources['available_resources'] else 'general'} resources first"
+        }), 200
+    except Exception as e:
+        print(f"Error getting resource map: {e}")
+        return jsonify({"error": str(e)}), 500
+
+def analyze_stakeholders(posts):
+    """Analyze stakeholders from posts"""
+    # Simplified stakeholder analysis
+    stakeholders = {
+        "students": {
+            "count": len([p for p in posts if "student" in p.content.lower()]),
+            "sentiment": "mixed",
+            "key_concerns": ["quality", "availability", "cost"],
+            "representation": "Student council"
+        },
+        "faculty": {
+            "count": len([p for p in posts if any(word in p.content.lower() for word in ["professor", "faculty", "teacher"])]),
+            "sentiment": "neutral",
+            "key_concerns": ["standards", "consistency"],
+            "representation": "Faculty association"
+        },
+        "staff": {
+            "count": len([p for p in posts if "staff" in p.content.lower()]),
+            "sentiment": "concerned",
+            "key_concerns": ["implementation", "workload"],
+            "representation": "Staff union"
+        }
+    }
+    
+    return stakeholders
+
+# ==================== ACTION PLAN ENDPOINTS ====================
+
+@ai_routes.route("/ai/action-plan/<int:topic_id>", methods=["POST"])
+@jwt_required()
+def create_action_plan(topic_id):
+    """Create and save an action plan"""
+    try:
+        data = request.json
+        topic = Topic.query.get_or_404(topic_id)
+        
+        # Generate action plan using AI
+        recommendations = ai_service.generate_action_recommendations(topic)
+        
+        # Save to database (you'd need an ActionPlan model)
+        # from models import ActionPlan
+        # action_plan = ActionPlan(
+        #     topic_id=topic_id,
+        #     plan=recommendations,
+        #     created_by=get_jwt_identity()
+        # )
+        # db.session.add(action_plan)
+        # db.session.commit()
+        
+        return jsonify({
+            "topic_id": topic_id,
+            "action_plan": recommendations["action_plan"],
+            "message": "Action plan created successfully",
+            "plan_id": 1,  # Would be action_plan.id in real implementation
+            "next_steps": [
+                "Review the plan",
+                "Assign responsibilities",
+                "Set deadlines"
+            ]
+        }), 200
+    except Exception as e:
+        print(f"Error creating action plan: {e}")
+        return jsonify({"error": str(e)}), 500

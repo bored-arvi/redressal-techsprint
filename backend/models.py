@@ -134,3 +134,31 @@ class PredictionScore(db.Model):
     predicted_resolution_time = db.Column(db.Integer)  # in hours
     confidence = db.Column(db.Float)  # 0-1 score
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+# backend/models.py - Add these models
+class DecisionSupport(db.Model):
+    __tablename__ = 'decision_support'
+    id = db.Column(db.Integer, primary_key=True)
+    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), nullable=False)
+    recommendations = db.Column(db.JSON)  # Stores AI recommendations
+    resources = db.Column(db.JSON)        # Stores resource analysis
+    timeline = db.Column(db.JSON)         # Stores decision timeline
+    generated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    moderator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+    topic = db.relationship('Topic', backref='decision_support')
+
+class ActionPlan(db.Model):
+    __tablename__ = 'action_plans'
+    id = db.Column(db.Integer, primary_key=True)
+    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), nullable=False)
+    plan_steps = db.Column(db.JSON)       # Step-by-step action plan
+    assigned_to = db.Column(db.Integer, db.ForeignKey('users.id'))
+    deadline = db.Column(db.DateTime)
+    status = db.Column(db.String(20), default='pending')  # pending, in_progress, completed
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    completed_at = db.Column(db.DateTime)
+    
+    topic = db.relationship('Topic', backref='action_plans')
+    assignee = db.relationship('User', foreign_keys=[assigned_to])

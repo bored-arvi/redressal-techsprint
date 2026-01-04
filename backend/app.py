@@ -61,9 +61,9 @@ app.register_blueprint(moderation, url_prefix="/api")
 # Make sure AI routes are registered
 try:
     app.register_blueprint(ai_routes, url_prefix="/api")
-    print("✅ AI routes registered successfully")
+    print("  AI routes registered successfully")
 except Exception as e:
-    print(f"⚠️  Warning: Failed to register AI routes: {e}")
+    print(f"    Warning: Failed to register AI routes: {e}")
     # Create a dummy AI blueprint if it doesn't exist
     from flask import Blueprint
     ai_dummy = Blueprint("ai", __name__)
@@ -105,17 +105,17 @@ with app.app_context():
 if __name__ == '__main__':
     # Check for API key
     if not os.getenv('GEMINI_API_KEY'):
-        print("\n⚠️  WARNING: GEMINI_API_KEY not set!")
+        print("\n    WARNING: GEMINI_API_KEY not set!")
         print("Please set it in your .env file or environment variables.")
         print("Get your API key from: https://aistudio.google.com/app/apikey\n")
     
     print("\n" + "="*60)
-    print("🚀 Redressal Backend Starting...")
+    print("  Redressal Backend Starting...")
     print("="*60)
-    print(f"🌐 Frontend URL: http://localhost:5173")
-    print(f"🔧 Backend URL: http://localhost:5000")
-    print(f"📊 Health check: http://localhost:5000/health")
-    print(f"🤖 AI Endpoints: http://localhost:5000/api/ai/sentiment-timeline/1")
+    print(f"  Frontend URL: http://localhost:5173")
+    print(f"  Backend URL: http://localhost:5000")
+    print(f"  Health check: http://localhost:5000/health")
+    print(f"  AI Endpoints: http://localhost:5000/api/ai/sentiment-timeline/1")
     print("="*60 + "\n")
     
     app.run(debug=True, host='0.0.0.0', port=5000)

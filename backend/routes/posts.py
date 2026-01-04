@@ -9,7 +9,7 @@ posts = Blueprint("posts", __name__)
 def update_topic(topic, analysis):
     key_points = analysis.get('key_points', '')
     if key_points:
-        topic.distilled_points += f"\n• {key_points}"
+        topic.distilled_points += f"\n  {key_points}"
     topic.sentiment_count += 1
     
     if analysis["sentiment"] == "negative":
