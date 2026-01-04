@@ -17,13 +17,13 @@ const Comment = ({ post }) => {
   return (
     <div className="comment">
       <div className="comment-vote">
-        <button className="vote-btn small">▲</button>
+        <button className="vote-btn small"> </button>
       </div>
 
       <div className="comment-content">
         <div className="comment-meta">
           <span className="comment-author">Anonymous</span>
-          <span className="dot">•</span>
+          <span className="dot"> </span>
           <span className="comment-time">{getTimeAgo(post.created_at)}</span>
           <span className={`sentiment-badge ${post.sentiment || 'neutral'}`}>
             {post.sentiment || 'neutral'}

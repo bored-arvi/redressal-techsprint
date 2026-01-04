@@ -1,7 +1,7 @@
 // frontend/src/components/common/EmptyState.jsx
 import React from 'react';
 
-const EmptyState = ({ icon = "📝", title = "No data", message, action }) => {
+const EmptyState = ({ icon = " ", title = "No data", message, action }) => {
   return (
     <div className="empty-state">
       <div className="empty-icon">{icon}</div>

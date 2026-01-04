@@ -33,7 +33,7 @@ const Poll = ({ poll, topicId, onVote }) => {
 
   return (
     <div className="section-card">
-      <h3 className="section-title">📊 Poll</h3>
+      <h3 className="section-title">  Poll</h3>
       <p className="poll-question">{poll.question}</p>
       <div className="poll-options-detail">
         {poll.options.map(option => {

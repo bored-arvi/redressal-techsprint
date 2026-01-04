@@ -56,7 +56,7 @@ const TopicsListPage = ({ onTopicClick, onNavigate }) => {
 
               {topics.length === 0 && (
                 <div className="empty-state">
-                  <div className="empty-icon">📝</div>
+                  <div className="empty-icon"> </div>
                   <h3>No topics yet</h3>
                   <p>Be the first to start a discussion</p>
                   <button className="btn btn-primary" onClick={() => setShowModal(true)}>Create Topic</button>

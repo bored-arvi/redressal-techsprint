@@ -63,7 +63,7 @@ const CreateTopicModal = ({ onClose, onCreated }) => {
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Create a new topic</h2>
-          <button className="close-btn" onClick={onClose}>×</button>
+          <button className="close-btn" onClick={onClose}> </button>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -125,7 +125,7 @@ const CreateTopicModal = ({ onClose, onCreated }) => {
                         />
                         {pollOptions.length > 2 && (
                           <button type="button" className="btn-icon btn-danger" onClick={() => removeOption(idx)}>
-                            ×
+                             
                           </button>
                         )}
                       </div>

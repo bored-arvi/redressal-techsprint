@@ -86,15 +86,15 @@ const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
       <div className="page-content">
         <div className="container">
           <button className="back-btn" onClick={onBack}>
-            ← Back to topics
+              Back to topics
           </button>
 
           <div className="topic-detail">
             <div className="topic-header-detail">
               <div className="topic-vote-section">
-                <button className="vote-btn large">▲</button>
+                <button className="vote-btn large"> </button>
                 <div className={`vote-count large ${sentiment}`}>{topic.sentiment_score}</div>
-                <button className="vote-btn large">▼</button>
+                <button className="vote-btn large"> </button>
               </div>
 
               <div className="topic-info">
@@ -121,7 +121,7 @@ const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
             )}
 
             <div className="section-card">
-              <h3 className="section-title">💬 Add your response</h3>
+              <h3 className="section-title">  Add your response</h3>
               <form onSubmit={handlePostSubmit}>
                 <textarea 
                   value={postContent}

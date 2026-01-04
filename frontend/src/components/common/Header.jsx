@@ -31,7 +31,7 @@ const Header = ({ onNavigate, currentView }) => {
                     className={`nav-btn ${currentView === 'moderate' ? 'active' : ''}`}
                     onClick={() => onNavigate('moderate')}
                   >
-                    🛡️ Moderate
+                       Moderate
                   </button>
                 )}
                 <button className="btn btn-secondary" onClick={logout}>

@@ -20,15 +20,15 @@ const TopicItem = ({ topic, onClick }) => {
   return (
     <div className="topic-item" onClick={() => onClick(topic.id)}>
       <div className="topic-vote">
-        <button className="vote-btn" onClick={(e) => e.stopPropagation()}>▲</button>
+        <button className="vote-btn" onClick={(e) => e.stopPropagation()}> </button>
         <div className={`vote-count ${sentiment}`}>{topic.sentiment_score}</div>
-        <button className="vote-btn" onClick={(e) => e.stopPropagation()}>▼</button>
+        <button className="vote-btn" onClick={(e) => e.stopPropagation()}> </button>
       </div>
 
       <div className="topic-content">
         <div className="topic-meta">
           <span className="topic-stats">{topic.positive_count + topic.negative_count} responses</span>
-          <span className="dot">•</span>
+          <span className="dot"> </span>
           <span className="topic-time">{getTimeAgo(topic.created_at)}</span>
         </div>
 
@@ -41,7 +41,7 @@ const TopicItem = ({ topic, onClick }) => {
             </div>
           )}
           <div className="topic-badges">
-            {topic.has_poll && <span className="badge">📊 Poll</span>}
+            {topic.has_poll && <span className="badge">  Poll</span>}
           </div>
         </div>
       </div>
