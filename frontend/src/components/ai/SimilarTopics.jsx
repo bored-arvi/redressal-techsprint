@@ -7,11 +7,15 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const SimilarTopics = ({ topicId }) => {
   const [similar, setSimilar] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { token } = useAuth();
+  //const { token } = useAuth();
+
+  const { token, loading: authLoading } = useAuth();
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!token) return;
     loadSimilar();
-  }, [topicId, token]);
+  }, [topicId, token, authLoading]);
 
   const loadSimilar = async () => {
     try {

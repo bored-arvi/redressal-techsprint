@@ -12,7 +12,7 @@ import { useAuth } from '../context/AuthContext';
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
-  const { token } = useAuth();
+  const { token, loading: authLoading } = useAuth();
   const [topic, setTopic] = useState(null);
   const [loading, setLoading] = useState(true);
   const [postContent, setPostContent] = useState('');
@@ -33,8 +33,10 @@ const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
   };
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!token) return;
     loadTopic();
-  }, [topicId, token]);
+  }, [topicId, token, authLoading]);
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();

@@ -6,22 +6,30 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const AISummary = ({ topicId, postCount = 0 }) => {
   const [summary, setSummary] = useState('');
-  const [loading, setLoading] = useState(true);
-  const { token } = useAuth();
+  const [summaryLoading, setSummaryLoading] = useState(true);
+  const { token, loading: authLoading } = useAuth();
   const MIN_POSTS_FOR_SUMMARY = 3;
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!token) {
+      setSummary('');
+      setSummaryLoading(false);
+      return;
+    }
+
     if (postCount < MIN_POSTS_FOR_SUMMARY) {
-      setLoading(false);
+      setSummaryLoading(false);
       setSummary('');
       return;
     }
 
     loadSummary();
-  }, [topicId, token, postCount]);
+  }, [topicId, token, postCount, authLoading]);
+
 
   const loadSummary = async () => {
-    setLoading(true);
+    setSummaryLoading(true);
     try {
       const headers = {};
       if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -38,11 +46,11 @@ const AISummary = ({ topicId, postCount = 0 }) => {
       console.error('Failed to load summary:', error);
       setSummary('');
     } finally {
-      setLoading(false);
+      setSummaryLoading(false);
     }
   };
 
-  if (loading) return <div className="ai-loading">Generating AI summary...</div>;
+  if (summaryLoading) return <div className="ai-loading">Generating AI summary...</div>;
   if (!summary) return null;
 
   return (

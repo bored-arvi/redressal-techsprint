@@ -8,7 +8,7 @@ import { useAuth } from '../context/AuthContext';
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const TopicsListPage = ({ onTopicClick, onNavigate }) => {
-  const { token } = useAuth();
+  const { token, loading: authLoading } = useAuth();
   const [topics, setTopics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -28,8 +28,10 @@ const TopicsListPage = ({ onTopicClick, onNavigate }) => {
   };
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!token) return; // don't try to fetch protected data without a token
     loadTopics();
-  }, [token]);
+  }, [token, authLoading]);
 
   return (
     <>

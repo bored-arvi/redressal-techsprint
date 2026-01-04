@@ -12,7 +12,7 @@ import { useAuth } from './context/AuthContext';
 const AppContent = () => {
   const [currentView, setCurrentView] = useState('topics');
   const [selectedTopicId, setSelectedTopicId] = useState(null);
-  const { token } = useAuth();
+  const { token, loading } = useAuth();
 
   const handleNavigate = (view) => {
     setCurrentView(view);
@@ -30,6 +30,12 @@ const AppContent = () => {
     setCurrentView('topics');
     setSelectedTopicId(null);
   };
+
+  // While auth is resolving (checking token), show loading to avoid
+  // briefly showing protected content with an invalid token.
+  if (loading) {
+    return <div className="loading">Checking authentication…</div>;
+  }
 
   if (!token) {
     return <AuthPage />;

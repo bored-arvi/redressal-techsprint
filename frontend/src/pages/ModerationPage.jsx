@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const ModerationPage = ({ onNavigate }) => {
-  const { token } = useAuth();
+  const { token, loading: authLoading } = useAuth();
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [moderationData, setModerationData] = useState(null);
@@ -31,10 +31,18 @@ const ModerationPage = ({ onNavigate }) => {
   };
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!token) return;
     loadTopics();
-  }, [token]);
+  }, [token, authLoading]);
 
   const loadModeration = async (topicId) => {
+    if (authLoading) return;
+    if (!token) {
+      alert('Please login to view moderation data');
+      return;
+    }
+
     setLoadingModeration(true);
     setSelectedTopic(topicId);
     try {

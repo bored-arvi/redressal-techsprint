@@ -5,7 +5,13 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  // Normalize stored token: treat 'null' or empty as no token
+  const initialToken = (() => {
+    const t = localStorage.getItem('token');
+    return t && t !== 'null' ? t : null;
+  })();
+
+  const [token, setToken] = useState(initialToken);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,6 +34,17 @@ export const AuthProvider = ({ children }) => {
         setUser(data);
       } else {
         // token invalid/expired — clear it so UI updates correctly
+        try {
+          if (res.status === 401) {
+            // Let user know session expired
+            alert('Session expired — please log in again.');
+          }
+          const err = await res.json();
+          console.warn('Auth /me failed:', res.status, err);
+        } catch (e) {
+          console.warn('Auth /me failed with non-json response', res.status);
+        }
+
         localStorage.removeItem('token');
         setToken(null);
         setUser(null);

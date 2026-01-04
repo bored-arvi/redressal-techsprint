@@ -7,7 +7,9 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const SentimentChart = ({ topicId }) => {
   const [data, setData] = useState([]);
-  const { token } = useAuth();
+  //const { token } = useAuth();
+
+  const { token, loading: authLoading } = useAuth();
 
   useEffect(() => {
     // Use test data first to verify Recharts works
@@ -21,8 +23,8 @@ const SentimentChart = ({ topicId }) => {
     setData(testData);
     
     // Then try to load real data
-    loadSentimentData();
-  }, [topicId, token]);
+    if (!authLoading && token) loadSentimentData();
+  }, [topicId, token, authLoading]);
 
   const loadSentimentData = async () => {
     try {
