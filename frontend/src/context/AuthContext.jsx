@@ -22,9 +22,15 @@ export const AuthProvider = ({ children }) => {
       const res = await fetch(`${API_BASE}/auth/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+
       if (res.ok) {
         const data = await res.json();
         setUser(data);
+      } else {
+        // token invalid/expired — clear it so UI updates correctly
+        localStorage.removeItem('token');
+        setToken(null);
+        setUser(null);
       }
     } catch (error) {
       console.error('Failed to fetch user:', error);

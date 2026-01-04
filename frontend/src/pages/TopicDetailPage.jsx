@@ -21,9 +21,9 @@ const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
   const loadTopic = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/topics/${topicId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/topics/${topicId}`, { headers });
       const data = await res.json();
       setTopic(data);
     } catch (error) {
@@ -34,20 +34,24 @@ const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
 
   useEffect(() => {
     loadTopic();
-  }, [topicId]);
+  }, [topicId, token]);
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (!postContent.trim() || submitting) return;
 
+    if (!token) {
+      alert('Please login to post');
+      return;
+    }
+
     setSubmitting(true);
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`${API_BASE}/api/posts`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: JSON.stringify({ topic_id: topicId, content: postContent })
       });
 
@@ -111,7 +115,7 @@ const TopicDetailPage = ({ topicId, onBack, onNavigate }) => {
             </div>
 
             {/* AI FEATURES */}
-            <AISummary topicId={topicId} />
+            <AISummary topicId={topicId} postCount={topic.posts.length} />
             <SentimentChart topicId={topicId} />
             <RiskPrediction topicId={topicId} />
             <SimilarTopics topicId={topicId} />

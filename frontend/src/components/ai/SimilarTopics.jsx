@@ -11,13 +11,13 @@ const SimilarTopics = ({ topicId }) => {
 
   useEffect(() => {
     loadSimilar();
-  }, [topicId]);
+  }, [topicId, token]);
 
   const loadSimilar = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/ai/similar/${topicId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/ai/similar/${topicId}`, { headers });
       const data = await res.json();
       setSimilar(data.similar_topics || []);
     } catch (error) {

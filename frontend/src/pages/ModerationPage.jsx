@@ -17,9 +17,9 @@ const ModerationPage = ({ onNavigate }) => {
   const loadTopics = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/topics`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/topics`, { headers });
       const data = await res.json();
       // Sort by sentiment score (most negative first) for moderation
       const sorted = data.sort((a, b) => a.sentiment_score - b.sentiment_score);
@@ -38,9 +38,9 @@ const ModerationPage = ({ onNavigate }) => {
     setLoadingModeration(true);
     setSelectedTopic(topicId);
     try {
-      const res = await fetch(`${API_BASE}/api/moderation/topic/${topicId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/moderation/topic/${topicId}`, { headers });
       const data = await res.json();
       setModerationData(data);
     } catch (error) {
@@ -52,15 +52,18 @@ const ModerationPage = ({ onNavigate }) => {
 
   const handleModerationAction = async (action) => {
     if (!selectedTopic || actionLoading) return;
+    if (!token) {
+      alert('Please login to perform moderation actions');
+      return;
+    }
     
     setActionLoading(true);
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`${API_BASE}/api/moderation/topic/${selectedTopic}/${action}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+        headers
       });
 
       if (res.ok) {

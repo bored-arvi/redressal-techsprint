@@ -41,6 +41,14 @@ def get_ai_summary(topic_id):
         posts = Post.query.filter_by(topic_id=topic_id)\
             .order_by(Post.created_at.desc()).all()
         
+        # Require a minimum number of posts for a meaningful summary
+        MIN_POSTS_FOR_SUMMARY = 3
+        if len(posts) < MIN_POSTS_FOR_SUMMARY:
+            return jsonify({
+                "error": f"Not enough responses to generate summary (need ≥ {MIN_POSTS_FOR_SUMMARY})",
+                "post_count": len(posts)
+            }), 400
+        
         summary = ai_service.summarize_discussion(topic.title, posts)
         
         # Store summary in database

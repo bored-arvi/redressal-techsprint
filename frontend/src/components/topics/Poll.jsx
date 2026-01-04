@@ -8,13 +8,17 @@ const Poll = ({ poll, topicId, onVote }) => {
   const { token } = useAuth();
 
   const handleVote = async (optionId) => {
+    if (!token) {
+      alert('Please login to vote');
+      return;
+    }
+
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`${API_BASE}/api/poll/vote`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: JSON.stringify({ option_id: optionId })
       });
 

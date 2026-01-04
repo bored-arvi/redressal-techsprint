@@ -4,24 +4,39 @@ import { useAuth } from '../../context/AuthContext';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-const AISummary = ({ topicId }) => {
+const AISummary = ({ topicId, postCount = 0 }) => {
   const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(true);
   const { token } = useAuth();
+  const MIN_POSTS_FOR_SUMMARY = 3;
 
   useEffect(() => {
+    if (postCount < MIN_POSTS_FOR_SUMMARY) {
+      setLoading(false);
+      setSummary('');
+      return;
+    }
+
     loadSummary();
-  }, [topicId]);
+  }, [topicId, token, postCount]);
 
   const loadSummary = async () => {
+    setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/ai/summary/${topicId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      setSummary(data.summary);
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/ai/summary/${topicId}`, { headers });
+      if (!res.ok) {
+        const err = await res.json();
+        console.warn('AI summary request failed:', err);
+        setSummary('');
+      } else {
+        const data = await res.json();
+        setSummary(data.summary);
+      }
     } catch (error) {
       console.error('Failed to load summary:', error);
+      setSummary('');
     } finally {
       setLoading(false);
     }

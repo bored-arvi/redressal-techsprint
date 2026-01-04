@@ -11,13 +11,13 @@ const RiskPrediction = ({ topicId }) => {
 
   useEffect(() => {
     loadPrediction();
-  }, [topicId]);
+  }, [topicId, token]);
 
   const loadPrediction = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/ai/predictions/${topicId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/ai/predictions/${topicId}`, { headers });
       const data = await res.json();
       setPrediction(data.predictions);
     } catch (error) {

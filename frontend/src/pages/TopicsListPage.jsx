@@ -16,9 +16,9 @@ const TopicsListPage = ({ onTopicClick, onNavigate }) => {
   const loadTopics = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/topics`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/topics`, { headers });
       const data = await res.json();
       setTopics(data);
     } catch (error) {

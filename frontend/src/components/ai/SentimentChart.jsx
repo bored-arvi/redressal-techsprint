@@ -22,13 +22,13 @@ const SentimentChart = ({ topicId }) => {
     
     // Then try to load real data
     loadSentimentData();
-  }, [topicId]);
+  }, [topicId, token]);
 
   const loadSentimentData = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/ai/sentiment-timeline/${topicId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`${API_BASE}/api/ai/sentiment-timeline/${topicId}`, { headers });
       const response = await res.json();
       
       if (response.timeline && response.timeline.length > 0) {

@@ -2,7 +2,7 @@
 
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
-from models import Topic
+from models import Topic, PollOption
 from database import db
 from ai.gemini import moderator_reasoning
 
@@ -28,12 +28,26 @@ def moderate(topic_id):
             topic.tags
         )
         
+        # Include poll info (if present) so moderators can see vote counts
+        poll_info = None
+        if topic.has_poll:
+            options = PollOption.query.filter_by(topic_id=topic_id).all()
+            poll_info = {
+                "question": topic.poll_question,
+                "options": [{
+                    "id": o.id,
+                    "text": o.option_text,
+                    "votes": o.vote_count
+                } for o in options]
+            }
+        
         return jsonify({
             "topic": topic.title,
             "sentiment_score": topic.sentiment_score,
             "negative_posts": topic.negative_count,
             "positive_posts": topic.positive_count,
-            "ai_suggestions": ai_view
+            "ai_suggestions": ai_view,
+            "poll": poll_info
         })
     except Exception as e:
         print(f"Error in moderation: {e}")

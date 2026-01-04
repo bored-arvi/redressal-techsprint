@@ -25,6 +25,12 @@ const CreateTopicModal = ({ onClose, onCreated }) => {
     e.preventDefault();
     setSubmitting(true);
 
+    if (!token) {
+      alert('Please login to create a topic');
+      setSubmitting(false);
+      return;
+    }
+
     const body = {
       title,
       tags: tags.split(',').map(t => t.trim()).filter(t => t),
@@ -37,12 +43,11 @@ const CreateTopicModal = ({ onClose, onCreated }) => {
     }
 
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`${API_BASE}/api/topics`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: JSON.stringify(body)
       });
 
